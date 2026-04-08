@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Globe, ChevronDown, User, LogOut } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
-import { signOut as supabaseSignOut } from '../supabase'
+import { signOut as supabaseSignOut } from '../lib/supabaseClient'
 
 const services = [
   { name: 'Work Permit', path: '/services/work-permit' },

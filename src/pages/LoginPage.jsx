@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useAuth } from '../AuthContext'
+import { useAuth } from '../context/AuthContext'
 import toast from 'react-hot-toast'
 
 const LoginPage = () => {
@@ -14,16 +14,22 @@ const LoginPage = () => {
     e.preventDefault()
     setLoading(true)
 
-    const { error } = await signIn(email, password)
+    try {
+      if (!signIn) throw new Error('Authentication service unavailable')
 
-    if (error) {
-      toast.error(error.message)
-    } else {
-      toast.success('Logged in successfully!')
-      navigate('/dashboard')
+      const { error } = await signIn(email, password)
+
+      if (error) {
+        toast.error(error.message)
+      } else {
+        toast.success('Logged in successfully!')
+        navigate('/dashboard')
+      }
+    } catch (err) {
+      toast.error(err.message || 'Unable to sign in')
+    } finally {
+      setLoading(false)
     }
-
-    setLoading(false)
   }
 
   return (

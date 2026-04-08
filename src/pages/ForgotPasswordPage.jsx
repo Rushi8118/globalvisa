@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { ArrowLeft, Mail } from 'lucide-react'
 import toast from 'react-hot-toast'
-import { resetPassword } from '../supabase'
+import { resetPassword } from '../lib/supabaseClient'
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('')

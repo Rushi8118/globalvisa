@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useAuth } from '../AuthContext'
+import { useAuth } from '../context/AuthContext'
 import toast from 'react-hot-toast'
 
 const SignupPage = () => {
@@ -21,16 +21,22 @@ const SignupPage = () => {
 
     setLoading(true)
 
-    const { error } = await signUp(email, password)
+    try {
+      if (!signUp) throw new Error('Authentication service unavailable')
 
-    if (error) {
-      toast.error(error.message)
-    } else {
-      toast.success('Account created successfully! Please check your email to confirm.')
-      navigate('/login')
+      const { error } = await signUp(email, password)
+
+      if (error) {
+        toast.error(error.message)
+      } else {
+        toast.success('Account created successfully! Please check your email to confirm.')
+        navigate('/login')
+      }
+    } catch (err) {
+      toast.error(err.message || 'Unable to create account')
+    } finally {
+      setLoading(false)
     }
-
-    setLoading(false)
   }
 
   return (
